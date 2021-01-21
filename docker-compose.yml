@@ -5,8 +5,15 @@ services:
     build: ./angular
     ports:
       - "4200:4200"
+    networks:
+      - connect
   api:
     container_name: Api
     build: ./api
     ports:
       - "8080:8080"
+    networks:
+      - connect
+
+networks:
+  connect:
