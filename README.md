@@ -6,6 +6,7 @@ Run:
 docker-compose up
 ```
 frontend: localhost:4200
+
 backend: localhost:8080
 
 
