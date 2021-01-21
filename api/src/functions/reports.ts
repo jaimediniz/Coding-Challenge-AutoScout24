@@ -68,13 +68,20 @@ const reports = async (listings: Array<Merged>): Promise<any> => {
         mostContacted += listening.price / (listings.length * 0.3);
       }
 
-      result[listening.seller_type] =
-        result[listening.seller_type] ?? +listening.price;
+      if (!result[listening.seller_type]) {
+        result[listening.seller_type] = 0;
+      }
+      result[listening.seller_type] += Number(listening.price);
 
-      elements[listening.seller_type] = elements[listening.seller_type] ?? +1;
+      if (!elements[listening.seller_type]) {
+        elements[listening.seller_type] = 0;
+      }
+      elements[listening.seller_type] += 1;
 
-      makeDistribution[listening.make] =
-        makeDistribution[listening.make] ?? +(1 / listings.length);
+      if (!makeDistribution[listening.make]) {
+        makeDistribution[listening.make] = 0;
+      }
+      makeDistribution[listening.make] += 1 / listings.length;
 
       for (const month in months) {
         months[month][top] = listening;
