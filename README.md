@@ -9,6 +9,10 @@ frontend: localhost:4200
 
 backend: localhost:8080
 
+#### Framworks
+
+Frontend: Angular
+
 
 #### Goal of this task
 
