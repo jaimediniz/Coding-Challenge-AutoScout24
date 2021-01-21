@@ -1,18 +1,35 @@
 ## Coding Challenge: AutoScout24 Listing Report
 
 # Application
+
 Run:
+
 ```shell
 docker-compose up
 ```
+
+Access: http://localhost:4200
+
 frontend: localhost:4200
 
 backend: localhost:8080
 
-#### Framworks
+## Frameworks
 
 Frontend: Angular
 
+## Test
+
+Manually update ['./api/contacts.csv', './api/listings.csv'] files.
+
+Run:
+
+```shell
+docker-compose build
+docker-compose up
+```
+
+Access: http://localhost:4200
 
 #### Goal of this task
 
