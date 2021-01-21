@@ -1,6 +1,13 @@
-# Coding-Challenge-AutoScout24
-
 ## Coding Challenge: AutoScout24 Listing Report
+
+# Application
+Run:
+```shell
+docker-compose up
+```
+frontend: localhost:4200
+backend: localhost:8080
+
 
 #### Goal of this task
 
