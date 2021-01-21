@@ -6,6 +6,19 @@ export interface Listening {
   price: number;
   mileage: number;
   seller_type: string;
+}
+
+export interface Contacts {
+  listing_id: number;
+  contact_date: Date;
+}
+
+export interface Merged {
+  id: number;
+  make: string;
+  price: number;
+  mileage: number;
+  seller_type: string;
   contacted: Array<Date>;
   byMonth: any;
 }
@@ -14,22 +27,22 @@ export const generateReports = async (
   req: Request,
   res: Response
 ): Promise<void> => {
+  const rawData = res.locals.rawData;
+  let data;
   try {
-    const rawData = res.locals.rawData;
-
-    const data = await reports(rawData);
-
-    res.status(200).json({
-      error: false,
-      message: "Reports!",
-      data,
-    });
+    data = await reports(rawData);
   } catch (err) {
     res.status(500).json({ error: true, message: err.message, data: {} });
   }
+
+  res.status(200).json({
+    error: false,
+    message: "Reports!",
+    data,
+  });
 };
 
-const reports = async (listings: Array<Listening>): Promise<any> => {
+const reports = async (listings: Array<Merged>): Promise<any> => {
   let result: any = {};
   let elements: any = {};
   let makeDistribution: any = {};
@@ -39,13 +52,15 @@ const reports = async (listings: Array<Listening>): Promise<any> => {
 
   let top = 5;
   let months: any = {};
-  for (const month in Object.keys(listings[0].byMonth)) {
-    months[month] = Array(top).fill({ byMonth: -1 });
+  for (const month of Object.keys(listings[0].byMonth)) {
+    let empty: any = {};
+    empty[month] = [];
+    months[month] = Array(top).fill({ byMonth: empty });
   }
 
   listings
     // Sort by most contacted
-    .sort(function (a: Listening, b: Listening) {
+    .sort(function (a: Merged, b: Merged) {
       return b.contacted.length - a.contacted.length;
     })
     .forEach((listening) => {
@@ -63,16 +78,16 @@ const reports = async (listings: Array<Listening>): Promise<any> => {
 
       for (const month in months) {
         months[month][top] = listening;
-        months[month].sort(function (a: any, b: any) {
-          return b.byMonth[month] - a.byMonth[month];
+        months[month].sort(function (a: Merged, b: Merged) {
+          return b.byMonth[month]?.length - a.byMonth[month]?.length;
         });
       }
 
       position++;
     });
 
-  for (const month in months) {
-    months[month].pop();
+  for (const month of Object.keys(listings[0].byMonth)) {
+    months[month]?.pop();
   }
 
   let avgListening: any = {};
