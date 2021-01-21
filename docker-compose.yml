@@ -1,0 +1,12 @@
+version: "3.9"
+services:
+  web:
+    container_name: Web
+    build: ./angular
+    ports:
+      - "4200:4200"
+  api:
+    container_name: Api
+    build: ./api
+    ports:
+      - "8080:8080"

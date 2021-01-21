@@ -21,7 +21,7 @@ app.post(
   generateReports
 );
 
-app.get("/test", addTest, isCorrectFormat);
+app.get("/test", addTest, isCorrectFormat, generateReports);
 
 app.listen(port, () => {
   console.log(`server started at http://localhost:${port}`);
